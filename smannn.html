@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduSpark | Sekolah Masa Depan</title>
+    <!-- Font Awesome 6 (free) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #0a0f1e;
+            color: #fff;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1e2538;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4e6bff;
+            border-radius: 10px;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            background: rgba(10, 15, 30, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(78, 107, 255, 0.2);
+            animation: slideDown 0.8s ease;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #a5b9ff, #4e6bff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            color: #f0f4ff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background: #4e6bff;
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #fff;
+        }
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 0 5%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            flex: 1;
+            z-index: 2;
+            animation: fadeInUp 1.2s ease;
+        }
+
+        .hero-content h1 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 700;
+            line-height: 1.2;
+            background: linear-gradient(135deg, #ffffff, #b3c7ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: #b0b9d9;
+            margin: 2rem 0;
+            max-width: 600px;
+        }
+
+        .cta-btn {
+            background: linear-gradient(145deg, #4e6bff, #3a4fc2);
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: 0.4s;
+            box-shadow: 0 10px 20px rgba(78, 107, 255, 0.4);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .cta-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 30px rgba(78, 107, 255, 0.7);
+        }
+
+        .hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        .hero-image i {
+            font-size: 20rem;
+            color: #4e6bff;
+            filter: drop-shadow(0 0 30px #4e6bff);
+            opacity: 0.8;
+        }
+
+        .floating-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .floating-bg span {
+            position: absolute;
+            background: rgba(78, 107, 255, 0.1);
+            border-radius: 50%;
+            animation: ripple 8s infinite;
+        }
+  
+        .features {
+            padding: 5rem 5%;
+            background: #0e1424;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, #ffffff, #a5b9ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .cards-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+        }
+
+        .card {
+            background: rgba(20, 30, 50, 0.7);
+            backdrop-filter: blur(5px);
+            border: 1px solid #2e3a5a;
+            border-radius: 30px;
+            padding: 2.5rem 2rem;
+            width: 280px;
+            text-align: center;
+            transition: 0.4s;
+            cursor: pointer;
+            animation: cardAppear 1s backwards;
+            box-shadow: 0 20px 30px -10px rgba(0,0,0,0.5);
+        }
+
+        .card:nth-child(1) { animation-delay: 0.2s; }
+        .card:nth-child(2) { animation-delay: 0.4s; }
+        .card:nth-child(3) { animation-delay: 0.6s; }
+        .card:nth-child(4) { animation-delay: 0.8s; }
+
+        .card:hover {
+            transform: translateY(-20px) scale(1.02);
+            border-color: #4e6bff;
+            box-shadow: 0 30px 40px -10px #4e6bff80;
+        }
+
+        .card i {
+            font-size: 3.5rem;
+            color: #4e6bff;
+            margin-bottom: 1.5rem;
+            transition: 0.3s;
+        }
+
+        .card:hover i {
+            transform: rotate(360deg) scale(1.2);
+        }
+
+        .card h3 {
+            font-size: 1.6rem;
+            margin-bottom: 1rem;
+        }
+
+        .card p {
+            color: #b0b9d9;
+        }
+
+        .about {
+            padding: 5rem 5%;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 4rem;
+        }
+
+        .about-text {
+            flex: 1;
+        }
+
+        .about-text h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #ffffff, #b3c7ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .about-text p {
+            color: #b0b9d9;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+        }
+
+        .stats {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+            min-width: 100px;
+        }
+
+        .stat-number {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #4e6bff;
+        }
+
+        .stat-label {
+            color: #a5b9ff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .about-animation {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            animation: slideInRight 1s ease;
+        }
+
+        .about-animation i {
+            font-size: 18rem;
+            color: #3a4fc2;
+            opacity: 0.6;
+            transition: 0.3s;
+        }
+
+        .about-animation i:hover {
+            opacity: 1;
+            transform: scale(1.05);
+            filter: drop-shadow(0 0 40px #4e6bff);
+        }
+
+        .gallery {
+            padding: 5rem 5%;
+            background: #0e1424;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 20px;
+            overflow: hidden;
+            aspect-ratio: 1/1;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.6);
+            transition: 0.4s;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: 0.6s;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.2) rotate(3deg);
+        }
+
+        .gallery-item .overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, #0a0f1e);
+            color: white;
+            padding: 20px;
+            transform: translateY(100%);
+            transition: 0.4s;
+        }
+
+        .gallery-item:hover .overlay {
+            transform: translateY(0);
+        }
+
+        .testimonials {
+            padding: 5rem 5%;
+        }
+
+        .testimonial-slider {
+            display: flex;
+            gap: 2rem;
+            overflow-x: auto;
+            padding: 2rem 0;
+            scrollbar-width: thin;
+            scrollbar-color: #4e6bff #1e2538;
+            scroll-behavior: smooth;
+        }
+
+        .testimonial-slider::-webkit-scrollbar {
+            height: 5px;
+        }
+        .testimonial-slider::-webkit-scrollbar-thumb {
+            background: #4e6bff;
+            border-radius: 10px;
+        }
+
+        .testimonial-card {
+            min-width: 300px;
+            background: #111a2b;
+            border-radius: 30px;
+            padding: 2rem;
+            border: 1px solid #2e3a5a;
+            transition: 0.3s;
+            animation: fadeIn 1s;
+        }
+
+        .testimonial-card:hover {
+            border-color: #4e6bff;
+            transform: scale(1.02);
+        }
+
+        .testimonial-card i {
+            color: #4e6bff;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-card p {
+            font-style: italic;
+            color: #ccd6f0;
+            margin-bottom: 1rem;
+        }
+
+        .testimonial-card h4 {
+            color: #a5b9ff;
+        }
+
+        footer {
+            padding: 3rem 5%;
+            background: #070b17;
+            border-top: 1px solid #1e2538;
+            text-align: center;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-icons a {
+            color: #a5b9ff;
+            font-size: 1.8rem;
+            transition: 0.3s;
+            display: inline-block;
+        }
+
+        .social-icons a:hover {
+            color: #4e6bff;
+            transform: translateY(-5px) scale(1.2);
+        }
+
+        .copyright {
+            color: #5f6b8f;
+        }
+        @keyframes slideDown {
+            0% { opacity: 0; transform: translateY(-30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(50px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-30px); }
+            100% { transform: translateY(0px); }
+        }
+
+        @keyframes ripple {
+            0% { width: 0; height: 0; opacity: 0.6; }
+            100% { width: 400px; height: 400px; opacity: 0; }
+        }
+
+        @keyframes cardAppear {
+            0% { opacity: 0; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes slideInRight {
+            0% { opacity: 0; transform: translateX(100px); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; } 100% { opacity: 1; }
+        }
+
+        @media (max-width: 800px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+                padding-top: 100px;
+            }
+            .hero-image i {
+                font-size: 12rem;
+            }
+            .navbar {
+                padding: 1rem 5%;
+            }
+            .nav-links {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+            .about {
+                flex-direction: column-reverse;
+                text-align: center;
+            }
+            .stats {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">EduSpark</div>
+        <div class="nav-links">
+            <a href="#home">Beranda</a>
+            <a href="#program">Program</a>
+            <a href="#about">Tentang</a>
+            <a href="#gallery">Galeri</a>
+            <a href="#testi">Testimoni</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="floating-bg">
+            <span style="top:10%; left:20%; animation-delay:0s;"></span>
+            <span style="top:50%; left:70%; width:150px; height:150px; animation-delay:2s;"></span>
+            <span style="top:80%; left:30%; width:250px; height:250px; animation-delay:4s;"></span>
+        </div>
+        <div class="hero-content">
+            <h1>Cetak Pemimpin Masa Depan</h1>
+            <p>Sekolah inovatif dengan kurikulum berbasis teknologi, karakter, dan kreativitas. Bergabunglah dengan generasi cemerlang di EduSpark.</p>
+            <button class="cta-btn" onclick="alert('Formulir PPDB akan segera dibuka!')"><i class="fas fa-graduation-cap" style="margin-right: 10px;"></i>Daftar Sekarang</button>
+        </div>
+        <div class="hero-image">
+            <i class="fas fa-school"></i>
+        </div>
+    </section>
+
+    <!-- Program Unggulan (cards) -->
+    <section class="features" id="program">
+        <h2 class="section-title">Program Unggulan</h2>
+        <div class="cards-container">
+            <div class="card">
+                <i class="fas fa-laptop-code"></i>
+                <h3>Digital Class</h3>
+                <p>Belajar coding, robotik, dan AI dengan lab komputer modern sejak dini.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-globe-asia"></i>
+                <h3>Global Language</h3>
+                <p>Program bilingual dan bahasa asing dengan native speaker.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-palette"></i>
+                <h3>Creative Arts</h3>
+                <p>Seni musik, tari, dan teater untuk mengasah bakat dan percaya diri.</p>
+            </div>
+            <div class="card">
+                <i class="fas fa-hand-holding-heart"></i>
+                <h3>Karakter Juara</h3>
+                <p>Pembinaan mental, leadership, dan kegiatan sosial setiap bulan.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Tentang Sekolah + animasi angka -->
+    <section class="about" id="about">
+        <div class="about-text">
+            <h2>Tentang EduSpark</h2>
+            <p>Didirikan pada tahun 2010, EduSpark hadir sebagai sekolah berbasis teknologi dan nilai-nilai kebangsaan. Lebih dari 1000 alumni telah tersebar di universitas terbaik dan perusahaan global. Kami percaya setiap anak adalah bintang.</p>
+            <div class="stats" id="counterSection">
+                <div class="stat-item">
+                    <span class="stat-number" data-target="1500">0</span>
+                    <span class="stat-label">Siswa</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="120">0</span>
+                    <span class="stat-label">Guru</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" data-target="25">0</span>
+                    <span class="stat-label">Prestasi</span>
+                </div>
+            </div>
+        </div>
+        <div class="about-animation">
+            <i class="fas fa-chalkboard-teacher"></i>
+        </div>
+    </section>
+
+    <!-- Galeri Kegiatan -->
+    <section class="gallery" id="gallery">
+        <h2 class="section-title">Momen Seru</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=400&h=400&fit=crop" alt="Siswa belajar">
+                <div class="overlay">Kelas inspiratif</div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=400&h=400&fit=crop" alt="Lab komputer">
+                <div class="overlay">Lab komputer canggih</div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1509062522246-3755977927d7?w=400&h=400&fit=crop" alt="ekstrakurikuler">
+                <div class="overlay">Ekskul robotik</div>
+            </div>
+            <div class="gallery-item">
+                <img src="https://images.unsplash.com/photo-1517164850305-99a3e65bb47e?w=400&h=400&fit=crop" alt="olahraga">
+                <div class="overlay">Futsal kompetisi</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimoni -->
+    <section class="testimonials" id="testi">
+        <h2 class="section-title">Apa Kata Mereka</h2>
+        <div class="testimonial-slider">
+            <div class="testimonial-card">
+                <i class="fas fa-quote-right"></i>
+                <p>Anak saya jadi lebih percaya diri dan suka belajar berkat metode gamifikasi di sekolah ini.</p>
+                <h4>- Ibu Rina, orang tua murid</h4>
+            </div>
+            <div class="testimonial-card">
+                <i class="fas fa-quote-right"></i>
+                <p>Guru-gurunya sangat perhatian dan fasilitasnya lengkap. Saya bangga bersekolah di sini.</p>
+                <h4>- Rafa, siswa kelas 9</h4>
+            </div>
+            <div class="testimonial-card">
+                <i class="fas fa-quote-right"></i>
+                <p>Kurikulumnya up-to-date, lulusan banyak diterima di PTN favorit. Recommended!</p>
+                <h4>- Bapak Dedi, komite sekolah</h4>
+            </div>
+            <div class="testimonial-card">
+                <i class="fas fa-quote-right"></i>
+                <p>Lingkungan sekolah sangat mendukung kreativitas. Setiap sudut Instagramable!</p>
+                <h4>- Sinta, alumni 2023</h4>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="social-icons">
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+            <a href="#"><i class="fab fa-tiktok"></i></a>
+            <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+        <div class="copyright">
+            <p>© 2025 EduSpark School. All rights reserved. | Jl. Merdeka No.45, Jakarta</p>
+        </div>
+    </footer>
+
+    <script>
+        // Animasi counter pada section about (hanya berjalan sekali saat discroll)
+        const counters = document.querySelectorAll('.stat-number');
+        const speed = 200; // makin kecil makin cepat
+
+        // fungsi animate counter
+        function animateCounter(el) {
+            const target = +el.getAttribute('data-target');
+            const count = +el.innerText;
+            const increment = target / speed;
+            if (count < target) {
+                el.innerText = Math.ceil(count + increment);
+                setTimeout(() => animateCounter(el), 20);
+            } else {
+                el.innerText = target;
+            }
+        }
+
+        // intersection observer untuk memicu counter ketika tampil
+        const aboutSection = document.querySelector('.about');
+        let animated = false; // agar hanya sekali jalan
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !animated) {
+                    counters.forEach(counter => {
+                        // reset ke 0 sebelum animasi
+                        counter.innerText = '0';
+                        animateCounter(counter);
+                    });
+                    animated = true;
+                }
+            });
+        }, { threshold: 0.4 });
+
+        observer.observe(aboutSection);
+
+        // efek paralax sederhana untuk floating bg (hero)
+        document.addEventListener('mousemove', function(e) {
+            const spans = document.querySelectorAll('.floating-bg span');
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            spans.forEach((span, index) => {
+                const speedFactor = (index + 1) * 10;
+                const moveX = (x - 0.5) * speedFactor;
+                const moveY = (y - 0.5) * speedFactor;
+                span.style.transform = `translate(${moveX}px, ${moveY}px)`;
+            });
+        });
+
+        // smooth scroll untuk anchor link (navbar)
+        document.querySelectorAll('.nav-links a').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href').substring(1); // hapus #
+                const targetSection = document.getElementById(targetId);
+                if (targetSection) {
+                    targetSection.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // tambahkan efek klik pada kartu (program)
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('click', () => {
+                alert('Detail program akan segera hadir!');
+            });
+        });
+
+        // fallback gambar unsplash jika offline (tetap aman)
+        // (sudah pakai unsplash, bisa diandalkan)
+    </script>
+</body>
+</html>
